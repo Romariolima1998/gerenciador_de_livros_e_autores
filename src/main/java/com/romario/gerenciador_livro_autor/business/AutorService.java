@@ -57,7 +57,7 @@ public class AutorService {
         validaCamposObrigatorio(dto);
         erroSeNomeJaExiste(dto.getNome());
         erroSeEmailJaExiste(dto.getEmail());
-        validaEmail(dto.getEmail(), false);
+        validaEmail(dto.getEmail());
         cpfObrigatorio(dto);
         dto.setCpf(validacpf(dto.getCpf()));
         dto.setSenha(passwordEncoder.encode(dto.getSenha()));
@@ -69,7 +69,7 @@ public class AutorService {
     public AutorOutDTO atualizaAutor(AutorInDTO dto, String token){
         erroSeNomeJaExiste(dto.getNome());
         erroSeEmailJaExiste(dto.getEmail());
-        validaEmail(dto.getEmail(), true);
+        validaEmail(dto.getEmail());
         cpfObrigatorio(dto);
         dto.setCpf(validacpf(dto.getCpf()));
         dto.setSenha(passwordEncoder.encode(dto.getSenha()));
@@ -103,8 +103,8 @@ public class AutorService {
     //_____________VALIDACOES__________________________________________
 
     public void validaCamposObrigatorio(AutorInDTO dto){
-        if(dto.getNome() == null || dto.getPaisOrigem() == null){
-            throw new BadRequestException("campos nome e paisOrigem obrigatorios");
+        if(dto.getNome() == null || dto.getPaisOrigem() == null || dto.getEmail() ==null){
+            throw new BadRequestException("campos nome, paisOrigem e email obrigatorios");
         }
     }
 
@@ -124,20 +124,14 @@ public class AutorService {
         }
     }
 
-    public void validaEmail(String email, boolean eUpdate){
+    public void validaEmail(String email) {
         Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$");
         // Se NÃO é update → email obrigatório
-        if (!eUpdate) {
-            if (email == null || !PATTERN.matcher(email).matches()) {
+        if (email != null) {
+            if (!PATTERN.matcher(email).matches()) {
                 throw new BadRequestException("email incorreto ou ausente");
             }
-            return;
-        }
-
-        // Se é update → email OPCIONAL
-        if (email != null && !PATTERN.matcher(email).matches()) {
-            throw new BadRequestException("email incorreto");
         }
     }
 

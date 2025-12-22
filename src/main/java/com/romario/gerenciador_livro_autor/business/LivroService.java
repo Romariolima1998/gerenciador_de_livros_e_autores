@@ -52,13 +52,10 @@ public class LivroService {
         LivroEntity livro = livroRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("nenhum livro encontrado para esse id: " + id)
         );
-
         if(!livro.getAutor().getEmail().equals(email)){
             throw new ForbiddenException("esse livro nao pertence a voce, permissao negada");
         }
-
         updateMapper.updateLivro(dto, livro);
-
         return converter.paraLivroOutDTO(livroRepository.save(livro));
     }
 
@@ -67,7 +64,6 @@ public class LivroService {
         LivroEntity livro = livroRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("nenhum livro encontrado para esse id: " + id)
         );
-
         if(!livro.getAutor().getEmail().equals(email)){
             throw new ForbiddenException("esse livro nao pertence a voce, permissao negada");
         }

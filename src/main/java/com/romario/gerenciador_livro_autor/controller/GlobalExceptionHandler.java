@@ -1,9 +1,6 @@
 package com.romario.gerenciador_livro_autor.controller;
 
-import com.romario.gerenciador_livro_autor.business.exceptions.BadRequestException;
-import com.romario.gerenciador_livro_autor.business.exceptions.ConflictException;
-import com.romario.gerenciador_livro_autor.business.exceptions.ResourceNotFoundException;
-import com.romario.gerenciador_livro_autor.business.exceptions.UnaltorizedException;
+import com.romario.gerenciador_livro_autor.business.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -35,5 +32,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<String> BadRequestExceptionHandler(BadRequestException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<String> ForbiddenExceptionHandler(ForbiddenException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

@@ -127,7 +127,7 @@ public class AutorService {
     public void validaEmail(String email) {
         Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$");
-        // Se NÃO é update → email obrigatório
+
         if (email != null) {
             if (!PATTERN.matcher(email).matches()) {
                 throw new BadRequestException("email incorreto ou ausente");
